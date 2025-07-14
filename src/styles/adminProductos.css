@@ -1,0 +1,89 @@
+.admin-container {
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.admin-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.admin-volver {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  cursor: pointer;
+}
+
+.admin-volver:hover {
+  text-decoration: underline;
+}
+
+.admin-nombre {
+  max-width: 350px;
+}
+
+.admin-add-btn {
+  background-color: #444f9f;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.admin-add-btn:hover {
+  background-color: #3a4588;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-table th {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.admin-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.admin-btn.edit {
+  background-color: #0077cc;
+  color: white;
+}
+
+.admin-btn.edit:hover {
+  background-color: #005fa3;
+}
+
+.admin-btn.delete {
+  background-color: #cc3333;
+  color: white;
+}
+
+.admin-btn.delete:hover {
+  background-color: #a62828;
+}

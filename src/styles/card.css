@@ -11,8 +11,9 @@
     align-items: center;
     text-align: center;
     border-right: 1px solid #e7f0f8;
-    box-shadow:  20px 10px 60px #bebebe,
+    box-shadow:  6px 10px 20px #bebebe,
                 -20px -10px 60px #fff;
+                border:1px solid #e7f0f8;
     border-radius: 7px;
     cursor: pointer;
     transition: transform 0.5s ease, box-shadow 0.3s ease;
@@ -72,11 +73,10 @@
     margin-top: 25px;
     font-size: 20px;
     font-weight: bold;
-    background-color: #6374ae;
-    width: 70%;
+    width: 30%;
     margin: 25px auto;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #6374ae;
+    border-radius: 6px;
+    border: 1px solid #33333322;
 }
 
 .info-tarjeta {

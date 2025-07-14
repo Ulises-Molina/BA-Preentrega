@@ -53,6 +53,9 @@ export const Carrito = () => {
                 ))
             }
             <div className={darkMode ? 'carrito-resumen-dark-mode' : 'carrito-resumen'}>
+                <button type='button' onClick={()=> {
+                    listaCompras.map(item => eliminarCompra(item.id))
+                }}>Vaciar Carrito</button>
                 <p className='carrito-texto'>Resumen de compra</p>
                 <span className='carrito-resumen-precio-container'>
                 <h2 className='carrito-resumen-total'>Total</h2>

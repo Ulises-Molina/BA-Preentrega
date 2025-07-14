@@ -7,9 +7,11 @@ import { Navbar } from '../components/Navbar'
 import { DarkModeContext } from '../context/DarkModeContext'
 import { Loading } from '../components/Loading'
 
+
 export const Inicio = () => {
 
     const {productos,productosOriginales,loading,filtrarProductos,cambiarFiltro,filtros,valorMinInput,valorMaxInput,manejarValorMinInput,manejarValorMaxInput,busqueda,setProductos} = useContext(ProductosContext);
+    
 
     const {darkMode} = useContext(DarkModeContext);
 
@@ -24,7 +26,9 @@ export const Inicio = () => {
         }
     } 
 
-    const productosFiltrados = buscarProductos(filtrarProductos(productos));
+    const productosFiltrados = Array.isArray(productos)
+  ? buscarProductos(filtrarProductos(productos))
+  : [];
     
     const manejarOrdenamiento = (e)=> {
         const valorSeleccionado = e.target.value;
@@ -60,7 +64,6 @@ export const Inicio = () => {
         const productosOrdenados = [...productos].sort((a, b) => a.title.localeCompare(b.title));
         setProductos(productosOrdenados);
     }
-
 
     return (
         <>

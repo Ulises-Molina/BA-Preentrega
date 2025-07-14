@@ -46,6 +46,7 @@ img {
     border-radius: 5px;
     min-height: 25px;
     margin: auto;
+    margin-left: 100px;
     padding: 3px;
     padding-left: 35px;
     padding-right: 60px;
@@ -66,7 +67,7 @@ img {
 
 .icon-lupa {
     position: absolute;
-    left: 5px;
+    left: 105px;
     top: 3px;
     opacity: .7;
 }
@@ -93,7 +94,7 @@ img {
         height: 5dvh;
         background-color: #e5ebf4;
         justify-content: center;
-        gap: 315px;
+        gap: 35px;
         align-items: center;
         border-bottom: 1px solid #9996;
         transition: background-color .5s ease;
@@ -279,4 +280,14 @@ img {
 .login-icon, .admin-icon {
     padding: 2px 15px 0px 0px;
     color:#333;
+}
+
+.login-icon:hover {
+    cursor: pointer;
+}
+
+.logout-icon {
+    padding: 0px 15px 0px 0px;
+    color: #333;
+    cursor: pointer;
 }

@@ -9,24 +9,29 @@ import { DarkModeProvider } from './context/DarkModeProvider'
 import { Compra} from './screens/Compra'
 import { Login } from './screens/Login'
 import { Admin } from './screens/Admin'
+import ProtectedRoute from './context/ProtectedRoute'
+import { Register } from './screens/Register'
+import { AuthProvider } from './context/AuthContext'
 
 
 export const App = () => {
     return (
-        <DarkModeProvider>
-            <ProductosProvider>
+       <ProductosProvider> <DarkModeProvider>
+            <AuthProvider>
                 <CarritoProvider>
                     <Routes>
                         <Route path='/' element={<Inicio></Inicio>}></Route>
                         <Route path='/producto/:id' element={<Producto></Producto>}></Route>
                         <Route path='/inicio' element={<Inicio></Inicio>}></Route>
-                        <Route path='/carrito' element={<Carrito></Carrito>}></Route>
-                        <Route path='/compra' element={<Compra></Compra>}></Route>
+                        <Route path='/carrito' element={<ProtectedRoute><Carrito></Carrito></ProtectedRoute>}></Route>
+                        <Route path='/compra' element={<ProtectedRoute><Compra></Compra></ProtectedRoute>}></Route>
                         <Route path='/login' element={<Login></Login>}></Route>
-                        <Route path='/admin' element={<Admin></Admin>}></Route>
+                        <Route path='/admin' element={<ProtectedRoute><Admin></Admin></ProtectedRoute>}></Route>
+                        <Route path='/register' element={<Register></Register>}></Route>
                 </Routes>
             </CarritoProvider>
+        </AuthProvider>
+        </DarkModeProvider>
         </ProductosProvider>
-    </DarkModeProvider>
     )
 }
