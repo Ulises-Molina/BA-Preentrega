@@ -26,7 +26,7 @@ export const App = () => {
                         <Route path='/carrito' element={<ProtectedRoute><Carrito></Carrito></ProtectedRoute>}></Route>
                         <Route path='/compra' element={<ProtectedRoute><Compra></Compra></ProtectedRoute>}></Route>
                         <Route path='/login' element={<Login></Login>}></Route>
-                        <Route path='/admin' element={<ProtectedRoute><Admin></Admin></ProtectedRoute>}></Route>
+                        <Route path='/admin' element={<Admin></Admin>}></Route>
                         <Route path='/register' element={<Register></Register>}></Route>
                 </Routes>
             </CarritoProvider>

@@ -8,13 +8,14 @@
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
+  margin-left:20px;
   color: #333;
 }
 
 .admin-volver {
   position: absolute;
-  top: 35px;
-  left: 35px;
+  top: 55px;
+  left: 55px;
   cursor: pointer;
 }
 
