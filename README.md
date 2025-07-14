@@ -1,17 +1,87 @@
-Talento Tech
+🛒 Entrega Final    
+Talento Tech es una tienda online desarrollada como proyecto final para el curso de React JS de Talento Tech Buenos Aires Aprende
 
-Llamando mediante un `fetch` a una API(en ingles) que proporciona productos falsos, luego aplique funcionalidades de filtro por categoria y precio. Cuenta con una pagina donde se puede ver indivualmente cada producto al clickearlo. Tambien con un carrito de compras donde se pueden almacenar los productos deseados y un formulario de compra donde se puede finalizar la compra con los datos de una tarjeta.
+🚀 Características
 
-La pagina tiene un diseño responsivo, tiene estilos para pantallas con resolucion de celular, tablet y computadora de escritorio. Cuenta con tags de motores de busqueda "SEO" para posicionarla mejor en los distintos buscadores. Tambien tiene modo oscuro y modo claro, el estado se guarda en el LocalStorage para que cuando el usuario cierre la pagina y la vuelva a abrir este en el modo que haya seleccionado.
+📦 Listado de productos desde API externa
+
+➕ Agregar productos personalizados
+
+🛒 Carrito de compras con suma, resta y eliminación de ítems
+
+🔐 Login con autenticación simulada
+
+🛠 Dashboard de administrador
+
+🧾 Confirmaciones y notificaciones con React Toastify
+
+🔍 Filtros por precio, búsqueda y categoría
+
+🔰 SEO optimizado con React Helmet
+
+📂 Estructura del proyecto
+
+src/
+│
+├── components/       # Navbar, Footer, etc.
+├── context/          # Contextos globales: Auth, Productos, Carrito, DarkMode
+├── screens/          # Páginas: Home, Admin, Carrito, Login, etc.
+├── styles/           # Archivos CSS
+├── App.jsx           # Rutas principales
+└── main.jsx          # Punto de entrada
+
+
+📦 Requisitos
+Node.js >= 16.x
+
+npm o yarn
+
+🔧 Instalación
+Cloná el repositorio:
+
+
+git clone https://github.com/tu-usuario/talento-tech.git
+cd talento-tech
+Instalá las dependencias:
+
+
+npm install
+# o
+yarn install
+▶️ Ejecución en desarrollo
+
+npm run dev
+# o
+yarn dev
+Esto abrirá la app en: http://localhost:5173
+
+🔑 Acceso al panel de administración
+Puedes iniciar sesión desde la ruta /login con las siguientes credenciales de prueba:
+
+
+Usuario: admin
+Contraseña: 1234
+Una vez logueado, accedé a /admin para gestionar productos.
+
+🧪 Herramientas y librerías usadas
+React Router – Routing
+
+React Context API – Estado global
+
+React Toastify – Notificaciones
+
+React Helmet – SEO y metadatos
+
+FakeStoreAPI – Fuente de datos de productos
+
+
+🛠 Scripts útiles
+
+npm run dev       # Modo desarrollo
+npm run build     # Construye versión de producción
+npm run preview   # Sirve build local para prueba
 
 
 
-El proyecto cuenta con 4 pantallas enrutadas , `Inicio.jsx` , `Producto.jsx` , `Carrito.jsx` y `Compra.jsx`.
+Hecho por Ulises Molina
 
-Cuenta con 5 componentes funcionales que comparten las pantallas, `Card.jsx`, `Footer.jsx`, `Narbar.jsx`, `Loading.jsx` y `FormularioDeComprajsx`.
-
-Cuenta con 3 contextos, `ProductosContext.jsx`, `CarritoContext.jsx` y `DarkModeContext.jsx`.
-
-Tambien cuenta con 5 paginas de estilos, `card.css`, `carrito.css`, `inicio.css`, `navbar.css` y `producto.css`.
-
->[NOTE]
