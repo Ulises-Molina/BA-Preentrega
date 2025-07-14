@@ -5,6 +5,8 @@ import { Navbar } from '../components/Navbar'
 import { DarkModeContext } from '../context/DarkModeContext'
 import { Footer } from '../components/Footer'
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Carrito = () => {
     
@@ -53,9 +55,12 @@ export const Carrito = () => {
                 ))
             }
             <div className={darkMode ? 'carrito-resumen-dark-mode' : 'carrito-resumen'}>
-                <button type='button' onClick={()=> {
-                    listaCompras.map(item => eliminarCompra(item.id))
-                }}>Vaciar Carrito</button>
+                <button type='button' style={{marginBottom: '10px', width: '40%', height: '40px',alignSelf: 'center', cursor:"pointer",border: "1px solid blue", borderRadius: "7px"}} onClick={() => {
+listaCompras.forEach(item => eliminarCompra(item.id));
+toast.success("Carrito vaciado con éxito");
+}}>
+  Vaciar Carrito
+</button>
                 <p className='carrito-texto'>Resumen de compra</p>
                 <span className='carrito-resumen-precio-container'>
                 <h2 className='carrito-resumen-total'>Total</h2>
@@ -65,6 +70,7 @@ export const Carrito = () => {
             </div>
         </div>
         <Footer></Footer>
+        <ToastContainer position="top-right" autoClose={3000} />
         </>
     )
 }

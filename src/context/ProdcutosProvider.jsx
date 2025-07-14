@@ -36,25 +36,25 @@ export const ProductosProvider = ({ children }) => {
   });
 
   const fetchProductos = async () => {
-    try {
-      const res = await fetch('https://fakestoreapi.in/api/products');
-      const data = await res.json();
+  try {
+    const res = await fetch('https://fakestoreapi.in/api/products');
+    const data = await res.json();
 
-      if (Array.isArray(data.products)) {
-        setProductos(data.products);
-        setProductosOriginales(data.products);
-        localStorage.setItem('productosSave', JSON.stringify(data.products));
-      } else {
-        console.error("La API devolvió un formato inesperado:", data);
-        setProductos([]);
-      }
+    const productosAPI = Array.isArray(data.products) ? data.products : [];
 
-      setLoading(false);
-    } catch (error) {
-      alert('Error al cargar productos: ' + error.message);
-      setLoading(false);
-    }
-  };
+    // Leer productos personalizados previos desde localStorage
+    const personalizadosGuardados = JSON.parse(localStorage.getItem('productosPersonalizados') || '[]');
+
+    const combinados = [...productosAPI, ...personalizadosGuardados];
+
+    setProductos(combinados);
+    setProductosOriginales(combinados);
+    setLoading(false);
+  } catch (error) {
+    alert('Error al cargar productos: ' + error.message);
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchProductos();
@@ -76,6 +76,33 @@ export const ProductosProvider = ({ children }) => {
   const [busqueda, setBusqueda] = useState('');
   const manejarInput = (e) => setBusqueda(e.target.value);
 
+
+  const agregarProducto = (nuevoProducto) => {
+  const idUnico = productos.length > 0 ? Math.max(...productos.map(p => p.id)) + 1 : 1;
+  const productoConID = { ...nuevoProducto, id: idUnico };
+
+  const nuevosProductos = [...productos, productoConID];
+  setProductos(nuevosProductos);
+
+  
+  const guardados = JSON.parse(localStorage.getItem('productosPersonalizados') || '[]');
+  const actualizados = [...guardados, productoConID];
+  localStorage.setItem('productosPersonalizados', JSON.stringify(actualizados));
+};
+
+const eliminarProducto = (id) => {
+  const productoEliminado = productos.find(p => p.id === id);
+  if (!productoEliminado) return;
+
+  const nuevosProductos = productos.filter(p => p.id !== id);
+  setProductos(nuevosProductos);
+
+
+  const guardados = JSON.parse(localStorage.getItem('productosPersonalizados') || '[]');
+  const personalizadosActualizados = guardados.filter(p => p.id !== id);
+  localStorage.setItem('productosPersonalizados', JSON.stringify(personalizadosActualizados));
+};
+
   return (
     <ProductosContext.Provider
       value={{
@@ -93,6 +120,8 @@ export const ProductosProvider = ({ children }) => {
         manejarInput,
         busqueda,
         setBusqueda,
+        agregarProducto,
+        eliminarProducto
       }}
     >
       {children}

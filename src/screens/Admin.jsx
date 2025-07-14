@@ -1,43 +1,180 @@
-import React, { useContext } from 'react';
-import { ProductosContext } from '../context/ProductosContext'
-import '../styles/adminProductos.css'
+import React, { useContext, useState } from 'react';
+import { ProductosContext } from '../context/ProductosContext';
+import '../styles/adminProductos.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Admin = () => {
-    const { productos, eliminarProducto} = useContext(ProductosContext);
+  const { productos, agregarProducto, eliminarProducto } = useContext(ProductosContext);
 
-   console.log(productos)
-return (
-  <>
-  <a className='admin-volver' href="/">Volver al inicio</a>
-        <h1 className="admin-title">Administración de Productos</h1>
-  <table className="admin-table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Producto</th>
-      <th>Precio</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-  {productos.map((producto) => (
-    <tr key={producto.id}>
-      <td>{producto.id}</td>
-      <td className="admin-nombre">{producto.title}</td>
-      <td>{producto.price}</td>
-      <td>
-        <button
-          className="admin-btn delete"
-          onClick={() => eliminarProducto(producto.id)}
+  // estado del modal
+  const [showModal, setShowModal]     = useState(false);
+  const [productoAEliminar, setProd]  = useState(null);
+
+  //  estado del formulario
+  const [nuevoProducto, setNuevoProducto] = useState({
+    title: '',
+    price: '',
+    image: '',
+    description: '',
+  });
+
+  /* ---------- validación y alta ---------- */
+  const handleSubmit = (e) => {
+  e.preventDefault();
+  const { title, price, description } = nuevoProducto;
+
+  if (!title.trim()) {
+    toast.error("El nombre del producto es obligatorio.");
+    return;
+  }
+
+  if (isNaN(price) || price <= 0) {
+    toast.error("El precio debe ser mayor a 0.");
+    return;
+  }
+
+  if (!description || description.trim().length <= 10) {
+    toast.error("La descripción debe tener más de 10 caracteres.");
+    return;
+  }
+
+  agregarProducto(nuevoProducto);
+  toast.success("¡Producto agregado con éxito!");
+
+  setNuevoProducto({
+    title: '',
+    price: '',
+    image: '',
+    description: '',
+  });
+};
+
+  /* ---------- confirmación de borrado ---------- */
+  const pedirConfirmacion = (prod) => {
+    setProd(prod);
+    setShowModal(true);
+  };
+
+ const confirmarEliminar = () => {
+  eliminarProducto(productoAEliminar.id);
+  toast.success(`Producto "${productoAEliminar.title}" eliminado.`);
+  setShowModal(false);
+  setProd(null);
+};
+
+  const cancelarEliminar = () => {
+    setShowModal(false);
+    setProd(null);
+  };
+
+ 
+  const inputStyle = {
+    padding: '10px 14px', fontSize: '14px',
+    border: '1px solid #ccc', borderRadius: '4px',
+    outline: 'none', width: '100%', boxSizing: 'border-box'
+  };
+
+
+  return (
+    <>
+      <a className="admin-volver" href="/">Volver al inicio</a>
+      <h1 className="admin-title">Administración de Productos</h1>
+
+      {/* Formulario */}
+      <form onSubmit={handleSubmit} style={{
+        margin: '0 auto 50px', padding: 20, borderRadius: 8, background: '#fff',
+        boxShadow: '0 2px 8px rgba(0,0,0,.1)', maxWidth: 600,
+        display: 'flex', flexDirection: 'column', gap: 12
+      }}>
+        <h3 style={{ margin: 0, color: '#333' }}>Agregar nuevo producto</h3>
+
+        <input type="text"   placeholder="Nombre del producto"
+               value={nuevoProducto.title}
+               onChange={e => setNuevoProducto({ ...nuevoProducto, title: e.target.value })}
+               style={inputStyle} required />
+
+        <input type="number" placeholder="Precio"
+               value={nuevoProducto.price}
+               onChange={e => setNuevoProducto({ ...nuevoProducto, price: parseFloat(e.target.value) })}
+               style={inputStyle} required />
+
+        <input type="text"   placeholder="URL de imagen"
+               value={nuevoProducto.image}
+               onChange={e => setNuevoProducto({ ...nuevoProducto, image: e.target.value })}
+               style={inputStyle} />
+
+        <textarea placeholder="Descripción"
+                  value={nuevoProducto.description}
+                  onChange={e => setNuevoProducto({ ...nuevoProducto, description: e.target.value })}
+                  rows={3} style={{ ...inputStyle, resize: 'vertical' }} />
+
+        <button type="submit" style={{
+          background: '#444f9f', color: '#fff', padding: '10px 16px',
+          border: 'none', borderRadius: 5, cursor: 'pointer'
+        }}
+          onMouseOver={e => e.target.style.background = '#3a4588'}
+          onMouseOut ={e => e.target.style.background = '#444f9f'}
         >
-          Eliminar
+          Agregar producto
         </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-</table>
+      </form>
 
-</>
+      {/* ------- Tabla ------- */}
+      <table className="admin-table">
+        <thead>
+          <tr><th>ID</th><th>Producto</th><th>Precio</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+          {productos.map((p) => (
+            <tr key={p.id}>
+              <td>{p.id}</td>
+              <td className="admin-nombre">{p.title}</td>
+              <td>${p.price}</td>
+              <td>
+                <button className="admin-btn delete" onClick={() => pedirConfirmacion(p)}>
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ToastContainer position="top-right" autoClose={3000} />
+
+      {/* ------- Modal de confirmación ------- */}
+      {showModal && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999
+        }}>
+          <div style={{
+            width: '90%', maxWidth: 400, background: '#fff', borderRadius: 8,
+            padding: 24, textAlign: 'center', boxShadow: '0 4px 12px rgba(0,0,0,.15)'
+          }}>
+            <h3 style={{ marginTop: 0 }}>¿Eliminar producto?</h3>
+            <p style={{ color: '#555' }}>
+              Se eliminará <strong>{productoAEliminar?.title}</strong> de la lista.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 24 }}>
+              <button
+                onClick={confirmarEliminar}
+                style={{ padding: '8px 16px', border: 'none',
+                         background: '#cc3333', color: '#fff', borderRadius: 4, cursor: 'pointer' }}>
+                Sí, eliminar
+              </button>
+              <button
+                onClick={cancelarEliminar}
+                style={{ padding: '8px 16px', border: '1px solid #888',
+                         background: '#fff', color: '#333', borderRadius: 4, cursor: 'pointer' }}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+        
+      )}
+    </>
   );
 };
+

@@ -3,6 +3,8 @@ import "../styles/login.css"
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Login = () => {
 
@@ -17,7 +19,7 @@ export const Login = () => {
         login({usuario});
         navigate("/");
     }else{
-        alert("Credenciales incorrectas");
+        toast.error("Credenciales incorrectas");
     }
   };
 
@@ -60,6 +62,7 @@ export const Login = () => {
           <button type="submit">Iniciar sesión</button>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

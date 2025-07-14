@@ -6,6 +6,8 @@ import { Footer } from '../components/Footer'
 import { Navbar } from '../components/Navbar'
 import { DarkModeContext } from '../context/DarkModeContext'
 import { Loading } from '../components/Loading'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const Inicio = () => {
@@ -145,6 +147,7 @@ export const Inicio = () => {
         </div>
         }
         <Footer></Footer>
+        <ToastContainer position="top-right" autoClose={3000} />
         </>
     )
 }

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const AuthContext = createContext();
 
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('authUser');
     setUser(null);
+    toast.success("Sesión cerrada con éxito");
   };
 
   // Verificar si ya hay un usuario logueado al montar el componente
