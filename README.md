@@ -1,7 +1,9 @@
-🛒 Entrega Final    
+# 🛒 Entrega Final
+
 Talento Tech es una tienda online desarrollada como proyecto final para el curso de React JS de Talento Tech Buenos Aires Aprende
 
-🚀 Características
+
+## 🚀 Características
 
 📦 Listado de productos desde API externa
 
@@ -23,49 +25,54 @@ Talento Tech es una tienda online desarrollada como proyecto final para el curso
 
 🔐 Rutas protegidas
 
+## Estructura de carpetas
+
+```
 src/
-│
-├── components/       # Navbar, Footer, Cards, FormularioDePago,Loading.
-├── context/          # Contextos globales: Auth, Productos, Carrito, Pagination.
+├── components/       # Navbar, Footer, Cards, FormularioDePago, Loading
+├── context/          # Contextos globales: Auth, Productos, Carrito, Pagination
 ├── screens/          # Páginas: Home, Admin, Carrito, Login, etc.
 ├── styles/           # Archivos CSS
 ├── App.jsx           # Rutas principales
 └── main.jsx          # Punto de entrada
 
-
-📦 Requisitos
-Node.js >= 16.x
+```
+## Instalación. requisitos Node.js >= 16.x
 
 npm o yarn
 
-🔧 Instalación
-Cloná el repositorio:
+## 🔧 Instalación Cloná el repositorio:
 
-
+```bash
 git clone https://github.com/tu-usuario/talento-tech.git
 cd talento-tech
+```
 Instalá las dependencias:
 
-
+```bash
 npm install
-# o
-yarn install
-▶️ Ejecución en desarrollo
+```
 
+## Ejecución en modo desarrollo:
+
+```bash
 npm run dev
-# o
-yarn dev
-Esto abrirá la app en: http://localhost:5173
+```
 
-🔑 Acceso al panel de administración
-Puedes iniciar sesión desde la ruta /login con las siguientes credenciales de prueba:
+Esto abrirá la app en : http://localhost:5173
 
+## 🔑 Acceso al panel de administración
+Podes iniciar sesión desde la ruta /login con las siguientes credenciales de prueba:
 
 Usuario: admin
-Contraseña: 1234
+
+Contraseña: 1234 
+
 Una vez logueado, accedé a /admin para gestionar productos.
 
-🧪 Herramientas y librerías usadas
+
+## 🧪 Herramientas y librerías usadas
+
 React Router – Routing
 
 React Context API – Estado global
@@ -76,14 +83,25 @@ React Helmet – SEO y metadatos
 
 FakeStoreAPI – Fuente de datos de productos
 
+## 🛠 Scripts útiles
 
-🛠 Scripts útiles
+```bash
+npm run dev
+```
+Modo desarrollo
 
-npm run dev       # Modo desarrollo
-npm run build     # Construye versión de producción
-npm run preview   # Sirve build local para prueba
+```bash
+npm run build
+```
+Construye versión para producción
 
+```bash
+npm run preview
+```
+Sirve build local para pruebas
 
+##
 
-Hecho por Ulises Molina
+## Hecho por Ulises Molina
+
 
