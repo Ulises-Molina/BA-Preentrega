@@ -186,6 +186,12 @@ img {
         margin-right: -35px;
         text-overflow: ellipsis;
     }
+    .talentotech {
+        display:none;
+    }
+    .input-search {
+        margin-left:0px;
+    }
 }
 
 @media (width < 240px){

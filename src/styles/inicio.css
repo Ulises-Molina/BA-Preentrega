@@ -256,6 +256,32 @@ input[type="number"]::-webkit-inner-spin-button {
     height: 90dvh;
 }
 
+.paginador {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.paginador button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.paginador button.activo {
+  font-weight: 700;
+  border-color: #555;
+}
+
+.paginador button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
 
 
 

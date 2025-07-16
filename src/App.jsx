@@ -13,11 +13,15 @@ import ProtectedRoute from './context/ProtectedRoute'
 import { Register } from './screens/Register'
 import { AuthProvider } from './context/AuthContext'
 import { Helmet } from 'react-helmet';
+import { PaginationProvider } from './context/PaginationContext'
 
 
 export const App = () => {
     return (
-       <ProductosProvider> <DarkModeProvider>
+       
+        <PaginationProvider> 
+            <ProductosProvider>
+            <DarkModeProvider>
             <AuthProvider>
                 <CarritoProvider>
                     <Routes>
@@ -57,5 +61,6 @@ export const App = () => {
   <link rel="icon" href="/globe-earth.png" />
 </Helmet>
         </ProductosProvider>
+        </PaginationProvider>
     )
 }

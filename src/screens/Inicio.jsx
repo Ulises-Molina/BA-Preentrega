@@ -1,153 +1,217 @@
-import  { useContext,React } from 'react'
-import "../styles/inicio.css"
-import { ProductosContext } from '../context/ProductosContext'
-import {Card} from '../components/Card'
-import { Footer } from '../components/Footer'
-import { Navbar } from '../components/Navbar'
-import { DarkModeContext } from '../context/DarkModeContext'
-import { Loading } from '../components/Loading'
+import { useContext, useEffect } from 'react';
+import '../styles/inicio.css';
+import React from 'react';
+
+import { ProductosContext } from '../context/ProductosContext';
+import { PaginationContext } from '../context/PaginationContext';
+
+import { Card } from '../components/Card';
+import { Footer } from '../components/Footer';
+import { Navbar } from '../components/Navbar';
+import { Loading } from '../components/Loading';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export const Inicio = () => {
+  const {
+    productos,
+    productosOriginales,
+    loading,
+    filtrarProductos,
+    cambiarFiltro,
+    filtros,
+    valorMinInput,
+    valorMaxInput,
+    manejarValorMinInput,
+    manejarValorMaxInput,
+    busqueda,
+    setProductos,
+  } = useContext(ProductosContext);
 
-    const {productos,productosOriginales,loading,filtrarProductos,cambiarFiltro,filtros,valorMinInput,valorMaxInput,manejarValorMinInput,manejarValorMaxInput,busqueda,setProductos} = useContext(ProductosContext);
-    
+  const {
+    currentPage,
+    pageSize,
+    totalPages,
+    next,
+    prev,
+    goToPage,
+    setTotalItems,
+    reset,
+  } = useContext(PaginationContext);
 
-    const {darkMode} = useContext(DarkModeContext);
-
-    const buscarProductos = (productos) => {
-        if(busqueda.length > 2) {
-            return productos.filter(producto =>(
-                producto.title.toLowerCase().includes(busqueda.toString().toLowerCase())
-            ))
-        }
-        else {
-            return productos
-        }
-    } 
-
-    const productosFiltrados = Array.isArray(productos)
-  ? buscarProductos(filtrarProductos(productos))
-  : [];
-    
-    const manejarOrdenamiento = (e)=> {
-        const valorSeleccionado = e.target.value;
-
-        if (valorSeleccionado === "Menor precio") {
-            ordenarProductosMenorPrecio();
-        }
-        else if (valorSeleccionado === "Mayor precio") {
-            ordenarProductosMayorPrecio();
-        }
-        else if (valorSeleccionado === "Por nombre") {
-            ordenarProductosNombre();
-        }
-        else if (valorSeleccionado === "Mas comprados"){
-            setProductos(productosOriginales)
-        }
-        else {
-            setProductos(productosOriginales)
-        }
+  // Buscar y filtrar productos
+  const buscarProductos = (lista) => {
+    if (busqueda.length > 2) {
+      return lista.filter((producto) =>
+        producto.title.toLowerCase().includes(busqueda.toLowerCase())
+      );
     }
+    return lista;
+  };
 
-    const ordenarProductosMenorPrecio = () => {
-        const productosOrdenados = [...productos].sort((a, b) => a.price - b.price);
-        setProductos(productosOrdenados);
-    }
+  const productosFiltrados = Array.isArray(productos)
+    ? buscarProductos(filtrarProductos(productos))
+    : [];
 
-    const ordenarProductosMayorPrecio = () => {
-        const productosOrdenados = [...productos].sort((a, b) => b.price - a.price);
-        setProductos(productosOrdenados);
-    }
+  
+  useEffect(() => {
+  setTotalItems(productosFiltrados.length);
+}, [productosFiltrados]);
 
-    const ordenarProductosNombre = () => {
-        const productosOrdenados = [...productos].sort((a, b) => a.title.localeCompare(b.title));
-        setProductos(productosOrdenados);
-    }
+useEffect(() => {
+  reset(); 
+}, [filtros, busqueda]);
 
-    return (
-        <>
-        <Navbar></Navbar>
-        {
-            loading ? <Loading></Loading> :
-            <div className={darkMode ? "dark-mode" : "background"}>
-        {
-            filtros.category !== "all" && filtros.category !== "appliances" ? (<h2 className={darkMode ? "filtros-categoria-dark-mode": 'filtros-categoria'}>{
-                filtros.category.charAt(0).toUpperCase() + filtros.category.slice(1)}</h2>)
-            : filtros.category === "appliances" ? (
-                <h2 className={darkMode ? "filtros-categoria-dark-mode": 'filtros-categoria'}>Electrodomesticos </h2>
-            )
-            : (<h2 hidden></h2>)
-        }
-        {
-            filtros.maxPrice === 35 ? (
-                <h2 className={darkMode ? "filtros-categoria-dark-mode": 'filtros-categoria'}>OFERTAS! </h2>
-            )
-            : (<h2 hidden></h2>)
+  // Productos a mostrar en la página actual
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+  const productosPagina = productosFiltrados.slice(start, end);
 
-        }
-        <div className='filtro-precio'>
-        <label>Introduce un rango de precio</label>
-        <input type='number' placeholder='Minimo'
-        onChange={manejarValorMinInput}
-        onKeyDown={(e)=> {
-            if(e.key === "Enter" || e.key === "NumpadEnter") {
-                cambiarFiltro(filtros.category,valorMinInput,valorMaxInput)
-            }
-        }}/>
-        <input type='number' placeholder='Maximo' onChange={manejarValorMaxInput}
-        onKeyDown={(e)=> {
-            if(e.key === "Enter" || e.key === "NumpadEnter") {
-                cambiarFiltro(filtros.category,valorMinInput,valorMaxInput)
-            }
-        }}/>
-        <button onClick={()=> cambiarFiltro(filtros.category,valorMinInput,valorMaxInput)} className='boton-filtrar'>Filtrar</button>
+  // Ordenamiento
+  const manejarOrdenamiento = (e) => {
+    const valor = e.target.value;
+    if (valor === 'Menor precio') ordenarMenorPrecio();
+    else if (valor === 'Mayor precio') ordenarMayorPrecio();
+    else if (valor === 'Por nombre') ordenarNombre();
+    else setProductos(productosOriginales);
+  };
+
+  const ordenarMenorPrecio = () => {
+    const ordenados = [...productos].sort((a, b) => a.price - b.price);
+    setProductos(ordenados);
+  };
+
+  const ordenarMayorPrecio = () => {
+    const ordenados = [...productos].sort((a, b) => b.price - a.price);
+    setProductos(ordenados);
+  };
+
+  const ordenarNombre = () => {
+    const ordenados = [...productos].sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+    setProductos(ordenados);
+  };
+console.log({ currentPage, pageSize, totalPages, productosFiltrados });
+  return (
+    <>
+      <Navbar />
+
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="background">
+          {/* Título de categoría */}
+          {filtros.category !== 'all' && (
+            <h2 className="filtros-categoria">
+              {filtros.category === 'appliances'
+                ? 'Electrodomésticos'
+                : filtros.category.charAt(0).toUpperCase() +
+                  filtros.category.slice(1)}
+            </h2>
+          )}
+
+          {/* Ofertas */}
+          {filtros.maxPrice === 35 && (
+            <h2 className="filtros-categoria">OFERTAS!</h2>
+          )}
+
+          {/* Filtro de precio */}
+          <div className="filtro-precio">
+            <label>Introduce un rango de precio</label>
+            <input
+              type="number"
+              placeholder="Mínimo"
+              onChange={manejarValorMinInput}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  cambiarFiltro(filtros.category, valorMinInput, valorMaxInput);
+                }
+              }}
+            />
+            <input
+              type="number"
+              placeholder="Máximo"
+              onChange={manejarValorMaxInput}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  cambiarFiltro(filtros.category, valorMinInput, valorMaxInput);
+                }
+              }}
+            />
+            <button
+              className="boton-filtrar"
+              onClick={() =>
+                cambiarFiltro(filtros.category, valorMinInput, valorMaxInput)
+              }
+            >
+              Filtrar
+            </button>
+          </div>
+
+          {/* Ordenamiento */}
+          <div className="ordenar-productos">
+            <p className="ordenar-productos">Ordenar por</p>
+            <select className="ordenar-select" onChange={manejarOrdenamiento}>
+              <option>Más comprados</option>
+              <option>Menor precio</option>
+              <option>Mayor precio</option>
+              <option>Por nombre</option>
+            </select>
+          </div>
+
+          {/* Productos */}
+          <div className="container">
+            {productosPagina.length > 0 ? (
+              productosPagina.map((producto) => (
+                <Card
+                  key={producto.id}
+                  id={producto.id}
+                  nombre={producto.title}
+                  imagen={producto.image}
+                  precio={producto.price}
+                />
+              ))
+            ) : (
+              <div className="error-container">
+                <p className="mensaje-error">
+                  No se ha encontrado ningún producto que coincida con tu
+                  búsqueda
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Paginador */}
+          {totalPages > 1 && (
+            <div className="paginador">
+              <button onClick={prev} disabled={currentPage === 1}>
+                « Anterior
+              </button>
+              {[...Array(totalPages)].map((_, i) => {
+                const page = i + 1;
+                return (
+                  <button
+                    key={page}
+                    className={page === currentPage ? 'activo' : ''}
+                    onClick={() => goToPage(page)}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+              <button onClick={next} disabled={currentPage === totalPages}>
+                Siguiente »
+              </button>
+            </div>
+          )}
         </div>
-        <div className='ordenar-productos'>
-        <p className='ordenar-productos'>Ordenar por</p>
-        <select className={darkMode? 'ordenar-select-dark-mode':'ordenar-select'}
-        onChange={manejarOrdenamiento}>
-            <option>
-                Mas comprados
-            </option>
-            <option>
-                Menor precio
-            </option>
-            <option>
-                Mayor precio
-            </option>
-            <option>
-                Por nombre
-            </option>
-        </select>
-        </div>
-        <div className='container'>
-        {
-        productosFiltrados.length > 0 ? (
-        productosFiltrados.map(producto => (
-            <Card key={producto.id}
-            id = {producto.id}
-            nombre={producto.title}
-            imagen={producto.image}
-            precio={producto.price}
-            />)
-        ))
-        : 
-        (
-        <div className='error-container'>
-            <p className='mensaje-error'>No se ha encontrado ningun producto que coincida con tu busqueda</p>
-        </div>
-        )
-        
-        
-        }
-        </div>
-        </div>
-        }
-        <Footer></Footer>
-        <ToastContainer position="top-right" autoClose={3000} />
-        </>
-    )
-}
+      )}
+
+      <Footer />
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
+  );
+};
+

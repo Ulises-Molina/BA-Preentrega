@@ -24,7 +24,7 @@ export const Footer = () => {
             <div className='footer-contenido'>
                 <Security className='footer-icon' fontSize='large'></Security>
                 <h2 className='footer-titulo'>Garantizamos tu seguridad</h2>
-                <p className='footer-p'>En MercadoSur estas siempre protejido por las leyes de seguridad cibernetica</p>
+                <p className='footer-p'>En TalentoTech estas siempre protejido por las leyes de seguridad cibernetica</p>
             </div>
         </footer>
     )

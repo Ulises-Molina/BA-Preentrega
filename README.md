@@ -21,10 +21,12 @@ Talento Tech es una tienda online desarrollada como proyecto final para el curso
 
 📂 Estructura del proyecto
 
+🔐 Rutas protegidas
+
 src/
 │
-├── components/       # Navbar, Footer, etc.
-├── context/          # Contextos globales: Auth, Productos, Carrito, DarkMode
+├── components/       # Navbar, Footer, Cards, FormularioDePago,Loading.
+├── context/          # Contextos globales: Auth, Productos, Carrito, Pagination.
 ├── screens/          # Páginas: Home, Admin, Carrito, Login, etc.
 ├── styles/           # Archivos CSS
 ├── App.jsx           # Rutas principales
