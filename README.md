@@ -21,8 +21,6 @@ Talento Tech es una tienda online desarrollada como proyecto final para el curso
 
 🔰 SEO optimizado con React Helmet
 
-📂 Estructura del proyecto
-
 🔐 Rutas protegidas
 
 ## Estructura de carpetas
